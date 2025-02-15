@@ -6,8 +6,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
 //import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.*;
 import frc.robot.Commands.*;
@@ -30,8 +31,8 @@ public class RobotContainer {
 
   // The robot's subsystems are defined here.
    private final DrivetrainSubsystem m_drivetrain = new DrivetrainSubsystem();
-   private final CommandJoystick m_controller = new CommandJoystick(Constants.DrivetrainConstants.controller_port);
-   private final CommandJoystick m_testcontroller = new CommandJoystick(1);
+   
+   
    private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
    private final WristSubsystem m_wrist = new WristSubsystem();
    private final ManipulatorSubsystem m_manipulator = new ManipulatorSubsystem();
@@ -64,28 +65,28 @@ public class RobotContainer {
              m_drivetrain));
              m_wrist.setDefaultCommand(new DefaultWristCommand(m_wrist));
 
-		m_controller.button(5).whileTrue(new ElevatorToCommand(m_elevator, m_wrist, Constants.ElevatorConstants.L3, Constants.WristConstants.L3)).onFalse(new DefaultWristCommand(m_wrist));
+    m_driverController.a().whileTrue(new ElevatorToCommand(m_elevator, m_wrist, Constants.ElevatorConstants.L3, Constants.WristConstants.L3)).onFalse(new DefaultWristCommand(m_wrist));
 
-		m_controller.button(6).whileTrue(new ElevatorToCommand(m_elevator, m_wrist, Constants.ElevatorConstants.L2, Constants.WristConstants.L2)).onFalse(new DefaultWristCommand(m_wrist));
+		m_driverController.x().whileTrue(new ElevatorToCommand(m_elevator, m_wrist, Constants.ElevatorConstants.L2, Constants.WristConstants.L2)).onFalse(new DefaultWristCommand(m_wrist));
 
-		m_controller.button(10).whileTrue(new ElevatorToCommand(m_elevator, m_wrist, Constants.ElevatorConstants.PLACE_ALGAE, Constants.WristConstants.PLACE_ALGAE)).onFalse(new DefaultWristCommand(m_wrist));
+		m_driverController.b().whileTrue(new ElevatorToCommand(m_elevator, m_wrist, Constants.ElevatorConstants.PLACE_ALGAE, Constants.WristConstants.PLACE_ALGAE)).onFalse(new DefaultWristCommand(m_wrist));
 
-		m_controller.button(8).whileTrue(new ElevatorToCommand(m_elevator, m_wrist, Constants.ElevatorConstants.HUMAN_PICKUP, Constants.WristConstants.HUMAN_PICKUP)).onFalse(new DefaultWristCommand(m_wrist));
+		m_driverController.y().whileTrue(new ElevatorToCommand(m_elevator, m_wrist, Constants.ElevatorConstants.HUMAN_PICKUP, Constants.WristConstants.HUMAN_PICKUP)).onFalse(new DefaultWristCommand(m_wrist));
 		
 		//these buttons are disabled to for outreach so the buttons at the top of the joystick will not control the wrist or elevator
 		/*m_controller.button(3).whileTrue(new ElevatorToCommand(m_elevator, m_wrist, Constants.ElevatorConstants.PICKUP_ALGAE_L1, Constants.WristConstants.PICKUP_ALGAE_L1)).onFalse(new DefaultWristCommand(m_wrist));
 
 		m_controller.button(4).whileTrue(new ElevatorToCommand(m_elevator, m_wrist, Constants.ElevatorConstants.PICKUP_ALGAE_L2, Constants.WristConstants.PICKUP_ALGAE_L2)).onFalse(new DefaultWristCommand(m_wrist));
 		*/
-		m_controller.button(7).whileTrue(new ElevatorToCommand(m_elevator, m_wrist, Constants.ElevatorConstants.L1, Constants.WristConstants.L1)).onFalse(new DefaultWristCommand(m_wrist));
+		m_driverController.rightTrigger().whileTrue(new ElevatorToCommand(m_elevator, m_wrist, Constants.ElevatorConstants.L1, Constants.WristConstants.L1)).onFalse(new DefaultWristCommand(m_wrist));
 		
 		// coral intake, algae shoot
-		m_controller.button(1).whileTrue(new ManipulatorCommand(m_manipulator, false)).toggleOnFalse(new HoldCommand(m_manipulator, false, false));
+		m_driverController.leftTrigger().whileTrue(new ManipulatorCommand(m_manipulator, false)).toggleOnFalse(new HoldCommand(m_manipulator, false, false));
 
 		// algae intake, coral shoot
-		m_controller.button(2).whileTrue(new ManipulatorCommand(m_manipulator, true)).toggleOnFalse(new HoldCommand(m_manipulator, false, true));
+		m_driverController.rightBumper().whileTrue(new ManipulatorCommand(m_manipulator, true)).toggleOnFalse(new HoldCommand(m_manipulator, false, true));
 
-		m_controller.povUp().onTrue(new StopCommand(m_manipulator));
+		m_driverController.povUp().onTrue(new StopCommand(m_manipulator));
     
 }
 }
